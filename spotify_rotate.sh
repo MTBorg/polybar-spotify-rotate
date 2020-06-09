@@ -9,8 +9,6 @@ DIST=${DISTANCE:=20}
 INTERVAL=${INTERVAL:=1}
 INDEX=0
 while true; do
-	sleep $INTERVAL &
-	wait
 
 	meta_data=$(
 		dbus-send \
@@ -34,4 +32,7 @@ while true; do
 
 	INDEX=$((INDEX + 1))
 	[ $INDEX -ge ${#string} ] && INDEX=0
+
+	sleep $INTERVAL &
+	wait
 done
