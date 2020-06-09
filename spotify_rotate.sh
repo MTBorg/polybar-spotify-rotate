@@ -5,10 +5,11 @@ function rotate_string(){
 		[[ -n $TAIL ]] && echo "${1:$INDEX:$DIST} $TAIL" || echo "${1:$INDEX:$DIST}"
 }
 
-DIST=20
+DIST=${DISTANCE:=20}
+INTERVAL=${INTERVAL:=1}
 INDEX=0
 while true; do
-	sleep 1 &
+	sleep $INTERVAL &
 	wait
 
 	meta_data=$(
