@@ -9,29 +9,29 @@ DIST=${DISTANCE:=20}
 INTERVAL=${INTERVAL:=1}
 INDEX=0
 while true; do
-
-	meta_data=$(
+	if meta_data=$(
 		dbus-send \
 			--print-reply \
 			--dest=org.mpris.MediaPlayer2.spotify \
 			/org/mpris/MediaPlayer2 \
 			org.freedesktop.DBus.Properties.Get \
 			string:org.mpris.MediaPlayer2.Player \
-			string:Metadata)
-	song=$(
-			echo "$meta_data" \
-		| sed -n '/title/{n;p}' \
-		| cut -d '"' -f 2)
-	artist=$(
-			echo "$meta_data" \
-		| sed -n '/artist/{n;n;p}' \
-		| cut -d '"' -f 2)
-	string="$song - $artist -"
+			string:Metadata 2> /dev/null); then
+		song=$(
+				echo "$meta_data" \
+			| sed -n '/title/{n;p}' \
+			| cut -d '"' -f 2)
+		artist=$(
+				echo "$meta_data" \
+			| sed -n '/artist/{n;n;p}' \
+			| cut -d '"' -f 2)
+		string="$song - $artist -"
 
-	echo "$(rotate_string "$string" $INDEX $DIST)"
+		echo "$(rotate_string "$string" $INDEX $DIST)"
 
-	INDEX=$((INDEX + 1))
-	[ $INDEX -ge ${#string} ] && INDEX=0
+		INDEX=$((INDEX + 1))
+		[ $INDEX -ge ${#string} ] && INDEX=0
+	fi
 
 	sleep $INTERVAL &
 	wait
