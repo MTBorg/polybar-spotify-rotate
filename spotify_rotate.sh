@@ -2,7 +2,7 @@ function rotate_string(){
 		INDEX=$2
 		DIST=$3
 		[ $(($DIST+$INDEX-1)) -ge ${#1} ] && TAIL=${1:0:$(($DIST-${#1}+$INDEX))}
-		[[ -n $TAIL ]] && echo "${1:$INDEX:$DIST} $TAIL" || echo "${1:$INDEX:$DIST}"
+		[[ -n $TAIL ]] && echo "${1:$INDEX:$DIST}$TAIL" || echo "${1:$INDEX:$DIST}"
 }
 
 DIST=${DISTANCE:=20}
@@ -25,7 +25,7 @@ while true; do
 				echo "$meta_data" \
 			| sed -n '/artist/{n;n;p}' \
 			| cut -d '"' -f 2)
-		string="$song - $artist -"
+		string="$song - $artist - "
 
 		echo "$(rotate_string "$string" $INDEX $DIST)"
 
