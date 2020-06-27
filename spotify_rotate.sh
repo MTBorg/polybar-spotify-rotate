@@ -25,7 +25,7 @@ while true; do
 				echo "$meta_data" \
 			| sed -n '/artist/{n;n;p}' \
 			| cut -d '"' -f 2)
-		string="$song - $artist - "
+		[ -n "$song" -a -n "$artist" ] && string="$song - $artist - "  || string=""
 
 		echo "$(rotate_string "$string" $INDEX $DIST)"
 
